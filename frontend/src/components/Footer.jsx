@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FiInstagram, FiYoutube, FiFacebook } from 'react-icons/fi';
 import LegalModal from './LegalModal';
+import logoGif from '../assets/download.gif';
 
 const privacyContent = (
   <div className="space-y-4">
@@ -42,14 +43,19 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div className="col-span-1 md:col-span-2">
-              <h3 className="text-4xl font-black mb-4">
-                <span className="text-gradient font-cursive pr-4 pb-2 inline-block">Zenvite</span>
-              </h3>
+              <div className="mb-4">
+                <img src={logoGif} alt="Zenvite Logo" className="h-16 w-auto object-contain" />
+              </div>
               <p className="text-gray-600 max-w-sm mb-6 font-medium">
                 Digital Invitations for Every Celebration. Premium, mobile-friendly, and breathtakingly beautiful.
               </p>
               <div className="flex gap-4">
-                <a href="#" className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-red-700 hover:text-white transition-colors text-gray-600">
+                <a 
+                  href="https://www.instagram.com/zenvite4u?igsh=cGE2aGFod3BtZXI3" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-red-700 hover:text-white transition-colors text-gray-600"
+                >
                   <FiInstagram />
                 </a>
                 <a href="#" className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-red-700 hover:text-white transition-colors text-gray-600">
