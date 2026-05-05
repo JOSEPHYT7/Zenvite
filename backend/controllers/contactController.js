@@ -10,22 +10,15 @@ exports.submitContact = async (req, res) => {
   const { fullName, email, phoneNumber, eventType, message } = req.body;
 
   try {
-    // Create reusable transporter object using Gmail
+    // Create reusable transporter object using built-in Gmail service
     let transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: false, // true for 465, false for other ports
+      service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS.replace(/\s+/g, ''),
       },
-      tls: {
-        rejectUnauthorized: false // Helps in some restricted cloud environments
-      },
-      family: 4, // FORCE IPv4 only to avoid ENETUNREACH errors on Render
-      debug: true, // Enable debug logs
-      logger: true, // Log to console
-      connectionTimeout: 20000, // 20 seconds
+      debug: true,
+      logger: true,
     });
 
     // Send email to ADMIN
