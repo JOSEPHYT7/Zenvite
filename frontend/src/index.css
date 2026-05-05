@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-wedding-bg: #fafaf9; 
+  --color-wedding-red: #b91c1c; 
+  --color-holi-bg: #22c55e; 
+  --color-holi-pink: #d946ef;
+  --color-holi-yellow: #fbbf24;
+  --color-birthday-bg: #38bdf8; 
+  --font-sans: 'Poppins', 'Inter', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-cursive: 'Great Vibes', cursive;
+  --font-playful: 'Quicksand', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-wedding-bg);
+  color: #1c1917;
+  overflow-x: hidden;
+  /* Normal cursor for body */
+  cursor: auto;
+}
+
+button, a, select, input, textarea, .cursor-pointer {
+  /* Default pointers */
+  cursor: pointer;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #b91c1c, #d946ef, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
