@@ -32,10 +32,53 @@ const Previews = () => {
   return (
     <section id="previews" className="py-24 relative z-10 bg-birthday-bg overflow-hidden font-playful cursor-birthday">
       {/* Birthday Bunting/Decor Concept (Image 3) */}
-      <div className="absolute top-0 inset-x-0 h-16 flex justify-around opacity-50 pointer-events-none">
-         {[...Array(10)].map((_, i) => (
-            <div key={i} className="w-0 h-0 border-l-[30px] border-l-transparent border-t-[40px] border-t-white border-r-[30px] border-r-transparent origin-top"></div>
-         ))}
+      {/* Bunting Decoration Style (Colorful Flags on String) */}
+      <div className="absolute top-0 inset-x-0 h-32 pointer-events-none z-20">
+        {/* SVG String */}
+        <svg className="absolute top-0 w-full h-24 overflow-visible" preserveAspectRatio="none" viewBox="0 0 1000 100">
+          <path 
+            d="M0,10 C 150,80 350,80 500,10 C 650,80 850,80 1000,10" 
+            stroke="#1a1a1a" 
+            strokeWidth="1.5" 
+            fill="none" 
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+        
+        {/* Flags Container */}
+        <div className="flex justify-between w-full px-2 mt-[-5px]">
+          {Array.from({ length: 24 }).map((_, i) => {
+            const colors = ['#ef4444', '#fbbf24', '#2563eb', '#f97316'];
+            const color = colors[i % colors.length];
+            // Calculate vertical offset based on the curve: M0,10 C 150,80 350,80 500,10...
+            const x = i / 23;
+            let yOffset = 0;
+            if (x <= 0.5) {
+               const t = x * 2;
+               yOffset = 10 + (80 - 10) * (1 - Math.pow(1 - t, 2)) * (1 - Math.pow(t, 2)) * 4; // Approximating the cubic bezier
+               // Simpler approximation for sagging string
+               yOffset = 10 + Math.sin(x * Math.PI * 2) * 45;
+            } else {
+               const t = (x - 0.5) * 2;
+               yOffset = 10 + Math.sin(x * Math.PI * 2) * 45;
+            }
+            // Better approximation: sin wave for double sag
+            yOffset = 10 + Math.abs(Math.sin(x * Math.PI * 2)) * 50;
+
+            return (
+              <div 
+                key={i} 
+                className="relative flex flex-col items-center"
+                style={{ transform: `translateY(${yOffset}px) rotate(${(i % 2 === 0 ? 5 : -5)}deg)` }}
+              >
+                <div 
+                  className="w-0 h-0 border-l-[10px] md:border-l-[14px] border-l-transparent border-t-[18px] md:border-t-[24px] border-r-[10px] md:border-r-[14px] border-r-transparent shadow-lg" 
+                  style={{ borderTopColor: color }}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 mt-10">
