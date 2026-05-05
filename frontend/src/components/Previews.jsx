@@ -32,47 +32,46 @@ const Previews = () => {
   return (
     <section id="previews" className="py-24 relative z-10 bg-birthday-bg overflow-hidden font-playful cursor-birthday">
       {/* Birthday Bunting/Decor Concept (Image 3) */}
-      {/* Bunting Decoration Style (Colorful Flags on String) */}
-      <div className="absolute top-0 inset-x-0 h-32 pointer-events-none z-20">
+      {/* Bunting Decoration Style (Refined & Perfected) */}
+      <div className="absolute top-0 inset-x-0 h-24 pointer-events-none z-20">
         {/* SVG String */}
         <svg className="absolute top-0 w-full h-24 overflow-visible" preserveAspectRatio="none" viewBox="0 0 1000 100">
           <path 
-            d="M0,10 C 150,80 350,80 500,10 C 650,80 850,80 1000,10" 
+            d="M0,5 Q 250,70 500,5 T 1000,5" 
             stroke="#1a1a1a" 
-            strokeWidth="1.5" 
+            strokeWidth="1" 
             fill="none" 
             vectorEffect="non-scaling-stroke"
           />
         </svg>
         
         {/* Flags Container */}
-        <div className="flex justify-between w-full px-2 mt-[-5px]">
-          {Array.from({ length: 24 }).map((_, i) => {
+        <div className="flex justify-between w-full px-0">
+          {Array.from({ length: 32 }).map((_, i) => {
             const colors = ['#ef4444', '#fbbf24', '#2563eb', '#f97316'];
             const color = colors[i % colors.length];
-            // Calculate vertical offset based on the curve: M0,10 C 150,80 350,80 500,10...
-            const x = i / 23;
-            let yOffset = 0;
-            if (x <= 0.5) {
-               const t = x * 2;
-               yOffset = 10 + (80 - 10) * (1 - Math.pow(1 - t, 2)) * (1 - Math.pow(t, 2)) * 4; // Approximating the cubic bezier
-               // Simpler approximation for sagging string
-               yOffset = 10 + Math.sin(x * Math.PI * 2) * 45;
-            } else {
-               const t = (x - 0.5) * 2;
-               yOffset = 10 + Math.sin(x * Math.PI * 2) * 45;
-            }
-            // Better approximation: sin wave for double sag
-            yOffset = 10 + Math.abs(Math.sin(x * Math.PI * 2)) * 50;
+            const x = i / 31;
+            
+            // Perfect parabola/quad curve math for two sags
+            // sag = (1 - (2x-1)^2) for a single sag from 0 to 1
+            // For two sags, we use absolute sin or piecewise quadratic
+            const sagFactor = Math.abs(Math.sin(x * Math.PI * 2));
+            const yOffset = 5 + (sagFactor * 45); 
 
             return (
               <div 
                 key={i} 
                 className="relative flex flex-col items-center"
-                style={{ transform: `translateY(${yOffset}px) rotate(${(i % 2 === 0 ? 5 : -5)}deg)` }}
+                style={{ 
+                  left: '0',
+                  transform: `translateY(${yOffset}px)` 
+                }}
               >
+                {/* Connection Dot */}
+                <div className="w-1 h-1 bg-[#1a1a1a] rounded-full mb-[-1px]"></div>
+                {/* Flag */}
                 <div 
-                  className="w-0 h-0 border-l-[10px] md:border-l-[14px] border-l-transparent border-t-[18px] md:border-t-[24px] border-r-[10px] md:border-r-[14px] border-r-transparent shadow-lg" 
+                  className="w-0 h-0 border-l-[8px] md:border-l-[10px] border-l-transparent border-t-[14px] md:border-t-[18px] border-r-[8px] md:border-r-[10px] border-r-transparent drop-shadow-sm" 
                   style={{ borderTopColor: color }}
                 />
               </div>
