@@ -1,6 +1,6 @@
+import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { triggerFirecracker } from '../utils/firecracker';
-import buntingImg from '../assets/bunting.png';
 
 const previews = [
   {
@@ -29,16 +29,86 @@ const previews = [
   }
 ];
 
+const BuntingCanvas = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    const render = () => {
+      const width = canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+      const height = canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      
+      const displayWidth = canvas.offsetWidth;
+      const colors = ['#ef4444', '#fbbf24', '#2563eb', '#f97316'];
+      const sags = 2;
+      const flagCount = Math.floor(displayWidth / 25);
+      
+      ctx.clearRect(0, 0, displayWidth, height);
+      
+      // Draw String
+      ctx.beginPath();
+      ctx.strokeStyle = '#1a1a1a';
+      ctx.lineWidth = 1.2;
+      ctx.lineJoin = 'round';
+      
+      for (let i = 0; i <= displayWidth; i++) {
+        const xRatio = i / displayWidth;
+        const y = 5 + Math.abs(Math.sin(xRatio * Math.PI * sags)) * 45;
+        if (i === 0) ctx.moveTo(i, y);
+        else ctx.lineTo(i, y);
+      }
+      ctx.stroke();
+      
+      // Draw Flags
+      for (let i = 0; i <= flagCount; i++) {
+        const xRatio = i / flagCount;
+        const x = xRatio * displayWidth;
+        const y = 5 + Math.abs(Math.sin(xRatio * Math.PI * sags)) * 45;
+        
+        // Flag Shadow
+        ctx.shadowColor = 'rgba(0,0,0,0.1)';
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetY = 2;
+        
+        ctx.fillStyle = colors[i % colors.length];
+        ctx.beginPath();
+        ctx.moveTo(x - 9, y);
+        ctx.lineTo(x + 9, y);
+        ctx.lineTo(x, y + 22);
+        ctx.closePath();
+        ctx.fill();
+        
+        // Reset shadow for dot
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetY = 0;
+        
+        // Connection node
+        ctx.fillStyle = '#1a1a1a';
+        ctx.beginPath();
+        ctx.arc(x, y, 1.8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    };
+
+    render();
+    window.addEventListener('resize', render);
+    return () => window.removeEventListener('resize', render);
+  }, []);
+
+  return <canvas ref={canvasRef} className="w-full h-24" />;
+};
+
 const Previews = () => {
   return (
     <section id="previews" className="py-24 relative z-10 bg-birthday-bg overflow-hidden font-playful cursor-birthday">
-      {/* Premium Bunting Decoration (Realistic Image) */}
+      {/* Perfect Canvas Bunting */}
       <div className="absolute top-0 inset-x-0 h-24 pointer-events-none z-20">
-        <img 
-          src={buntingImg} 
-          alt="Bunting" 
-          className="w-full h-full object-contain object-top opacity-90" 
-        />
+        <BuntingCanvas />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 mt-10">
