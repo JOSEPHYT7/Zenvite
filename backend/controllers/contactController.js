@@ -12,7 +12,7 @@ exports.submitContact = async (req, res) => {
     const RESEND_API_KEY = process.env.RESEND_API_KEY;
     const FROM_EMAIL = 'onboarding@resend.dev'; // Default for new Resend accounts, or your verified domain
     
-    // 1. Send email to ADMIN
+    // 1. Send email to ADMIN (The Lead) - This is the priority
     const adminResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -43,41 +43,47 @@ exports.submitContact = async (req, res) => {
       }),
     });
 
-    // 2. Send auto-response to CUSTOMER
-    const customerResponse = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
-      },
-      body: JSON.stringify({
-        from: `Zenvite Team <${FROM_EMAIL}>`,
-        to: email,
-        subject: "Thank you for contacting Zenvite!",
-        html: `
-          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-            <div style="text-align: center; padding: 30px;">
-              <h1 style="color: #b91c1c; margin: 0; font-size: 32px; font-style: italic;">Zenvite</h1>
-            </div>
-            <div style="padding: 0 40px 40px 40px; text-align: center;">
-              <h2 style="color: #111827; font-size: 20px;">We've received your request! 🎉</h2>
-              <p style="color: #4b5563; line-height: 1.6;">
-                Hi <strong>${fullName}</strong>, we are thrilled about your upcoming <strong>${eventType}</strong>. Our team will contact you shortly to bring your digital invitation to life!
-              </p>
-              <p style="color: #9ca3af; font-size: 14px; margin-top: 30px;">
-                Warm regards,<br>
-                <strong>The Zenvite Team</strong>
-              </p>
-            </div>
-          </div>
-        `,
-      }),
-    });
+    const adminData = await adminResponse.json();
+    if (!adminResponse.ok) {
+      throw new Error(`Admin Email Failed: ${JSON.stringify(adminData)}`);
+    }
 
-    if (!adminResponse.ok || !customerResponse.ok) {
-      const adminErr = await adminResponse.json();
-      const customerErr = await customerResponse.ok ? null : await customerResponse.json();
-      throw new Error(`Resend Error: ${JSON.stringify(adminErr || customerErr)}`);
+    console.log('Admin notification sent successfully:', adminData.id);
+
+    // 2. Send auto-response to CUSTOMER (Optional, might fail in onboarding mode)
+    try {
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: `Zenvite Team <${FROM_EMAIL}>`,
+          to: email,
+          subject: "Thank you for contacting Zenvite!",
+          html: `
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+              <div style="text-align: center; padding: 30px;">
+                <h1 style="color: #b91c1c; margin: 0; font-size: 32px; font-style: italic;">Zenvite</h1>
+              </div>
+              <div style="padding: 0 40px 40px 40px; text-align: center;">
+                <h2 style="color: #111827; font-size: 20px;">We've received your request! 🎉</h2>
+                <p style="color: #4b5563; line-height: 1.6;">
+                  Hi <strong>${fullName}</strong>, we are thrilled about your upcoming <strong>${eventType}</strong>. Our team will contact you shortly to bring your digital invitation to life!
+                </p>
+                <p style="color: #9ca3af; font-size: 14px; margin-top: 30px;">
+                  Warm regards,<br>
+                  <strong>The Zenvite Team</strong>
+                </p>
+              </div>
+            </div>
+          `,
+        }),
+      });
+    } catch (customerError) {
+      console.warn('Customer auto-response failed (likely Resend onboarding limit):', customerError.message);
+      // We don't throw here because the admin Lead was already sent successfully!
     }
 
     res.status(200).json({ msg: 'Message sent successfully!' });
