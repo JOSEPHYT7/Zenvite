@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { triggerFirecracker } from '../utils/firecracker';
+import buntingImg from '../assets/bunting.png';
 
 const previews = [
   {
@@ -31,53 +32,13 @@ const previews = [
 const Previews = () => {
   return (
     <section id="previews" className="py-24 relative z-10 bg-birthday-bg overflow-hidden font-playful cursor-birthday">
-      {/* Birthday Bunting/Decor Concept (Image 3) */}
-      {/* Bunting Decoration Style (Refined & Perfected) */}
+      {/* Premium Bunting Decoration (Realistic Image) */}
       <div className="absolute top-0 inset-x-0 h-24 pointer-events-none z-20">
-        {/* SVG String */}
-        <svg className="absolute top-0 w-full h-24 overflow-visible" preserveAspectRatio="none" viewBox="0 0 1000 100">
-          <path 
-            d="M0,5 Q 250,70 500,5 T 1000,5" 
-            stroke="#1a1a1a" 
-            strokeWidth="1" 
-            fill="none" 
-            vectorEffect="non-scaling-stroke"
-          />
-        </svg>
-        
-        {/* Flags Container */}
-        <div className="flex justify-between w-full px-0">
-          {Array.from({ length: 32 }).map((_, i) => {
-            const colors = ['#ef4444', '#fbbf24', '#2563eb', '#f97316'];
-            const color = colors[i % colors.length];
-            const x = i / 31;
-            
-            // Perfect parabola/quad curve math for two sags
-            // sag = (1 - (2x-1)^2) for a single sag from 0 to 1
-            // For two sags, we use absolute sin or piecewise quadratic
-            const sagFactor = Math.abs(Math.sin(x * Math.PI * 2));
-            const yOffset = 5 + (sagFactor * 45); 
-
-            return (
-              <div 
-                key={i} 
-                className="relative flex flex-col items-center"
-                style={{ 
-                  left: '0',
-                  transform: `translateY(${yOffset}px)` 
-                }}
-              >
-                {/* Connection Dot */}
-                <div className="w-1 h-1 bg-[#1a1a1a] rounded-full mb-[-1px]"></div>
-                {/* Flag */}
-                <div 
-                  className="w-0 h-0 border-l-[8px] md:border-l-[10px] border-l-transparent border-t-[14px] md:border-t-[18px] border-r-[8px] md:border-r-[10px] border-r-transparent drop-shadow-sm" 
-                  style={{ borderTopColor: color }}
-                />
-              </div>
-            );
-          })}
-        </div>
+        <img 
+          src={buntingImg} 
+          alt="Bunting" 
+          className="w-full h-full object-contain object-top opacity-90" 
+        />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 mt-10">
