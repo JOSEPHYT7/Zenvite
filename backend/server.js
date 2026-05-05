@@ -7,6 +7,9 @@ const contactRoutes = require('./routes/contact');
 
 const app = express();
 
+// Trust Render Proxy
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(helmet());
 app.use(cors());

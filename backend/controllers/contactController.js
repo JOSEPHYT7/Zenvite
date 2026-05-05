@@ -12,11 +12,14 @@ exports.submitContact = async (req, res) => {
   try {
     // Create reusable transporter object using Gmail
     let transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false, // true for 465, false for other ports
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS.replace(/\s+/g, ''), // Automatically remove any spaces from the password
+        pass: process.env.EMAIL_PASS.replace(/\s+/g, ''),
       },
+      connectionTimeout: 10000, // 10 seconds
     });
 
     // Send email to ADMIN
