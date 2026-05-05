@@ -13,8 +13,8 @@ exports.submitContact = async (req, res) => {
     // Create reusable transporter object using Gmail
     let transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
-      port: 465,
-      secure: true, // true for 465, false for other ports
+      port: 587,
+      secure: false, // true for 465, false for other ports
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS.replace(/\s+/g, ''),
@@ -22,9 +22,10 @@ exports.submitContact = async (req, res) => {
       tls: {
         rejectUnauthorized: false // Helps in some restricted cloud environments
       },
+      family: 4, // FORCE IPv4 only to avoid ENETUNREACH errors on Render
       debug: true, // Enable debug logs
       logger: true, // Log to console
-      connectionTimeout: 15000, // 15 seconds
+      connectionTimeout: 20000, // 20 seconds
     });
 
     // Send email to ADMIN
