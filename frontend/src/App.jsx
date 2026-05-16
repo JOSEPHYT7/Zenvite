@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -10,6 +12,42 @@ import Pricing from './components/Pricing';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
+// Previews
+import LuxuryWedding from './previews/LuxuryWedding';
+import BirthdayParty from './previews/BirthdayParty';
+import IndianWedding from './previews/IndianWedding';
+import CorporateEvent from './previews/CorporateEvent';
+
+// Scroll to top helper
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
+const HomePage = () => {
+  const [currency, setCurrency] = useState('INR');
+
+  return (
+    <>
+      <Navbar />
+      <main>
+        <Hero />
+        <Services />
+        <HowItWorks />
+        <Previews />
+        <WhyChoose />
+        <Testimonials />
+        <Pricing currency={currency} setCurrency={setCurrency} />
+        <Contact />
+      </main>
+      <Footer />
+    </>
+  );
+};
+
 function App() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-primary">
@@ -21,20 +59,15 @@ function App() {
         <meta property="og:type" content="website" />
       </Helmet>
 
-      <Navbar />
-      
-      <main>
-        <Hero />
-        <Services />
-        <HowItWorks />
-        <Previews />
-        <WhyChoose />
-        <Testimonials />
-        <Pricing />
-        <Contact />
-      </main>
+      <ScrollToTop />
 
-      <Footer />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/preview/luxury-wedding" element={<LuxuryWedding />} />
+        <Route path="/preview/birthday-party" element={<BirthdayParty />} />
+        <Route path="/preview/indian-wedding" element={<IndianWedding />} />
+        <Route path="/preview/corporate-event" element={<CorporateEvent />} />
+      </Routes>
     </div>
   );
 }

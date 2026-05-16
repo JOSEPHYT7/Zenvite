@@ -46,7 +46,7 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           className="text-lg md:text-xl text-gray-600 max-w-2xl mb-10 leading-relaxed font-sans font-medium"
         >
-          We create modern, interactive, and breathtaking digital invitation websites infused with rich colors and elegant designs for weddings and grand celebrations.
+          We are a premium invitation agency crafting breathtaking digital websites, cinematic reels, bespoke event graphics, and custom posters for weddings, corporate galas, and every grand celebration.
         </motion.p>
 
         <motion.div 

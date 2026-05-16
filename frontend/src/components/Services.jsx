@@ -6,23 +6,33 @@ import { triggerFirecracker } from '../utils/firecracker';
 const features = [
   {
     graphic: "💌",
-    title: "Mobile Friendly",
-    description: "Designed primarily for mobile screens, perfect for WhatsApp sharing."
+    title: "Digital Invitation Websites",
+    description: "Premium interactive invitation websites with animations and RSVP features."
   },
   {
-    graphic: "💒",
-    title: "Instant Link Sharing",
-    description: "No app downloads required. Share a simple, elegant web link instantly."
+    graphic: "🎬",
+    title: "Celebration Reels & Videos",
+    description: "Cinematic invitation reels and celebration videos for social media."
   },
   {
-    graphic: "🎉",
-    title: "Animated Designs",
-    description: "Breathtaking animations, parallax scrolling, and interactive elements."
+    graphic: "🎨",
+    title: "Posters & Graphic Designs",
+    description: "Custom digital posters, save the date graphics, and event banners."
   },
   {
-    graphic: "💍",
-    title: "RSVP Features",
-    description: "Integrated RSVP forms directly within your digital invite."
+    graphic: "📱",
+    title: "Social Media Celebration Packs",
+    description: "Complete set of stories, posts, and status designs for your event."
+  },
+  {
+    graphic: "🖨️",
+    title: "Printable Invitation Designs",
+    description: "High-resolution digital designs ready for professional printing."
+  },
+  {
+    graphic: "✨",
+    title: "Event Branding",
+    description: "Consistent visual identity and branding for your special celebration."
   }
 ];
 
@@ -60,7 +70,7 @@ const Services = () => {
           </motion.p>
         </div>
 
-        <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <motion.div
               key={index}
