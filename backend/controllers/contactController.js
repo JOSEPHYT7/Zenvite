@@ -1,5 +1,9 @@
 const { validationResult } = require('express-validator');
 const nodemailer = require('nodemailer');
+const dns = require('dns');
+
+// Force IPv4 resolution to prevent ENETUNREACH timeouts on Render's IPv6 network
+dns.setDefaultResultOrder('ipv4first');
 
 exports.submitContact = async (req, res) => {
   const errors = validationResult(req);
