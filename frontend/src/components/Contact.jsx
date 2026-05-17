@@ -310,7 +310,7 @@ const Contact = () => {
                     </div>
                     <div className="space-y-1">
                       <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Event Date</label>
-                      <input type="date" {...register('eventDate')} className="w-full bg-gray-50 border-2 border-transparent focus:border-red-700 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 font-bold outline-none text-sm md:text-base" />
+                      <input type="date" min={new Date().toISOString().split('T')[0]} {...register('eventDate')} className="w-full bg-gray-50 border-2 border-transparent focus:border-red-700 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 font-bold outline-none text-sm md:text-base" />
                       {errors.eventDate && <p className="text-red-500 text-[10px] font-black">{errors.eventDate.message}</p>}
                     </div>
                   </div>

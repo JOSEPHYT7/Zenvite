@@ -11,6 +11,7 @@ import Testimonials from './components/Testimonials';
 import Pricing from './components/Pricing';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import LanguageBanner from './components/LanguageBanner';
 
 // Previews
 import LuxuryWedding from './previews/LuxuryWedding';
@@ -38,6 +39,7 @@ const HomePage = () => {
         <Services />
         <HowItWorks />
         <Previews />
+        <LanguageBanner />
         <WhyChoose />
         <Testimonials />
         <Pricing currency={currency} setCurrency={setCurrency} />
