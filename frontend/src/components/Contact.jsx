@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
-import { FiAlertCircle, FiLoader, FiArrowRight, FiArrowLeft, FiCheckCircle, FiChevronDown, FiX } from 'react-icons/fi';
+import { FiAlertCircle, FiLoader, FiArrowRight, FiArrowLeft, FiCheckCircle, FiChevronDown, FiX, FiCalendar } from 'react-icons/fi';
 
 const schema = Joi.object({
   fullName: Joi.string().required().messages({ 'string.empty': 'Full name is required' }),
@@ -310,7 +310,10 @@ const Contact = () => {
                     </div>
                     <div className="space-y-1">
                       <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Event Date</label>
-                      <input type="date" min={new Date().toISOString().split('T')[0]} {...register('eventDate')} className="w-full bg-gray-50 border-2 border-transparent focus:border-red-700 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 font-bold outline-none text-sm md:text-base" />
+                      <div className="relative">
+                        <input type="date" min={new Date().toISOString().split('T')[0]} {...register('eventDate')} className="w-full bg-gray-50 border-2 border-transparent focus:border-red-700 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 font-bold outline-none text-sm md:text-base appearance-none [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer text-gray-700 cursor-pointer" />
+                        <FiCalendar className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 text-lg pointer-events-none" />
+                      </div>
                       {errors.eventDate && <p className="text-red-500 text-[10px] font-black">{errors.eventDate.message}</p>}
                     </div>
                   </div>
